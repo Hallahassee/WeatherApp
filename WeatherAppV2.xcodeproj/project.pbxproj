@@ -14,7 +14,6 @@
 		CC1F20BF27310CBB00833670 /* Weather_App.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CC1F20BD27310CBB00833670 /* Weather_App.xcdatamodeld */; };
 		CC1F20C127310CBF00833670 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC1F20C027310CBF00833670 /* Assets.xcassets */; };
 		CC1F20C427310CBF00833670 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC1F20C227310CBF00833670 /* LaunchScreen.storyboard */; };
-		CC81CCDC273D0803001AAD85 /* AllTownsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC81CCDB273D0803001AAD85 /* AllTownsController.swift */; };
 		CC887AF5274239390073BDC1 /* TownAddController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC887AF4274239390073BDC1 /* TownAddController.swift */; };
 		CC887AF9274399200073BDC1 /* TempDescriptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC887AF8274399200073BDC1 /* TempDescriptors.swift */; };
 		CC887AFC2744C2AA0073BDC1 /* TextDescriptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC887AFB2744C2AA0073BDC1 /* TextDescriptors.swift */; };
@@ -46,7 +45,6 @@
 		CC1F20C027310CBF00833670 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CC1F20C327310CBF00833670 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CC1F20C527310CBF00833670 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CC81CCDB273D0803001AAD85 /* AllTownsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTownsController.swift; sourceTree = "<group>"; };
 		CC887AF4274239390073BDC1 /* TownAddController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TownAddController.swift; sourceTree = "<group>"; };
 		CC887AF8274399200073BDC1 /* TempDescriptors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempDescriptors.swift; sourceTree = "<group>"; };
 		CC887AFA2743B8CC0073BDC1 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -162,7 +160,6 @@
 			isa = PBXGroup;
 			children = (
 				CC1F20B827310CBB00833670 /* WeatherShowController.swift */,
-				CC81CCDB273D0803001AAD85 /* AllTownsController.swift */,
 				CC887AF4274239390073BDC1 /* TownAddController.swift */,
 				CC887AFF2744C7160073BDC1 /* ViewController.swift */,
 				CC887B0B274640DB0073BDC1 /* MapViewController.swift */,
@@ -295,7 +292,6 @@
 				CC887B0827461BEF0073BDC1 /* Location.swift in Sources */,
 				CC904BC627327F6000BC060C /* TownsStorage.swift in Sources */,
 				CC887B0C274640DC0073BDC1 /* MapViewController.swift in Sources */,
-				CC81CCDC273D0803001AAD85 /* AllTownsController.swift in Sources */,
 				CC887AFC2744C2AA0073BDC1 /* TextDescriptors.swift in Sources */,
 				CC904BBE2731418C00BC060C /* NetworkController.swift in Sources */,
 				CC1F20B927310CBB00833670 /* WeatherShowController.swift in Sources */,

@@ -10,7 +10,6 @@ import MapKit
 
 class WeatherShowController: BasedViewController {
 
-    var mainMode: Bool = true
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     
@@ -92,9 +91,7 @@ present(vc, animated: true, completion: nil)
     
 // MARK: Var and Outlets
    
-    let locationManager = LocationManager()
-
-    
+    var mainMode: Bool = true
     @IBOutlet var textDescriptors: [TextWeatherDescriptor]!
     
 
@@ -118,21 +115,21 @@ present(vc, animated: true, completion: nil)
         textDescriptors.forEach({$0.isHidden = false ; $0.setTemp(town)})
         }
         
-
-    internal override func noWeatherFound(){
-       
-        let vc = TownAddController()
-        vc.closure = {[weak self] data in
-            
-            self?.currentPickedTown = data
-            self?.downloadInProgress()
-            self?.reloadWeather()
-        }
-        present(vc, animated: true, completion: {
-            self.downloadInProgress()})
-
-        
-    }
+//
+//    internal override func noWeatherFound(){
+//
+//        let vc = TownAddController()
+//        vc.closure = {[weak self] data in
+//
+//            self?.currentPickedTown = data
+//            self?.downloadInProgress()
+//            self?.reloadWeather()
+//        }
+//        present(vc, animated: true, completion: {
+//            self.downloadInProgress()})
+//
+//
+//    }
 
   // MARK: LifeCicle of View
    
@@ -156,16 +153,7 @@ present(vc, animated: true, completion: nil)
     override func viewDidLoad() {
 //        textDescriptors.forEach({$0.layer.shadowOpacity = 0.15; $0.textColor = .white ; $0.shadowOffset = CGSize(width: 2, height: 2)})
         super.viewDidLoad()
-
-        if mainMode {locationManager.delegate = self
-            locationManager.requestWhenInUseAuthorization()
-            if CLLocationManager.locationServicesEnabled() {
-                locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
-                locationManager.requestLocation()
-            }} else {
-                reloadWeather()
-            }
-
+//        reloadWeather()
 
 }
 
@@ -190,24 +178,4 @@ present(vc, animated: true, completion: nil)
 }
 
 
-extension WeatherShowController : CLLocationManagerDelegate {
 
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-         print("error:: \(error.localizedDescription)")
-    }
-
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
-            locationManager.requestLocation()
-        }
-    }
-
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-
-        if locations.first != nil {
-            locationManager.currentLocation = locations.first?.coordinate
-        }
-
-    }
-
-}

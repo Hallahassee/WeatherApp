@@ -122,14 +122,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
     
     func setupMap() {
         mapView.delegate = self
-//        mapView.setCenter(currentLocation!, animated: true)
+        guard let currentPickedTown = currentPickedTown else {
+            
+            return}
         
-       let location = CLLocationCoordinate2D(latitude: Double(currentPickedTown!.lat), longitude: CLLocationDegrees(currentPickedTown!.lon))
+        let location = CLLocationCoordinate2D(latitude: Double(currentPickedTown.lat), longitude: CLLocationDegrees(currentPickedTown.lon))
         
         let region = MKCoordinateRegion(center: location, latitudinalMeters: 15000, longitudinalMeters: 15000)
         mapView.setRegion(region, animated: true)
        let currentTownAnnotation = WeatherAnnorationPoint()
-        currentTownAnnotation.setTemp(currentPickedTown!)
+        currentTownAnnotation.setTemp(currentPickedTown)
         currentTownAnnotation.coordinate = location
         currentTownAnnotation.placeStatus = true
         mapView.addAnnotation(currentTownAnnotation)

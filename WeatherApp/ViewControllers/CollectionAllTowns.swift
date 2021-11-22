@@ -9,9 +9,8 @@ import UIKit
 
 class CollectionAllTowns: BasedViewController, UICollectionViewDelegate, UICollectionViewDataSource {
   
+    @IBOutlet weak var collection: UICollectionView!
 
-    
-    
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -30,7 +29,6 @@ class CollectionAllTowns: BasedViewController, UICollectionViewDelegate, UIColle
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        self.collection.cellForItem(at: indexPath)?.backgroundColor = .white
         closure!(storage.allTowns[indexPath.row])
         self.navigationController?.popToRootViewController(animated: true)
         
@@ -53,10 +51,12 @@ class CollectionAllTowns: BasedViewController, UICollectionViewDelegate, UIColle
     }
     
     
+    override func reloadWeather() {
+        super.reloadWeather()
+        self.collection.reloadData()
+    }
     
     
-    
-    @IBOutlet weak var collection: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,12 +64,10 @@ class CollectionAllTowns: BasedViewController, UICollectionViewDelegate, UIColle
         collection.dataSource = self
         super.reloadWeather()
         collection.backgroundColor = .clear
-        self.navigationController?.isNavigationBarHidden = false
         let collectionCell = UINib(nibName: "WeatherCollectionCell", bundle: nil)
         collection.register(collectionCell, forCellWithReuseIdentifier: "WeatherCollectionCell")
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(longPressGestureRecognizer:)))
         collection.addGestureRecognizer(longPressRecognizer)
-        // Do any additional setup after loading the view.
     }
     
     
@@ -105,6 +103,7 @@ class CollectionAllTowns: BasedViewController, UICollectionViewDelegate, UIColle
             self?.storage.deleteTown(town!)
             self?.collection.deleteItems(at: [indexPath])
             self?.collection.reloadData()
+            if self?.storage.count == 0 {self?.noWeatherFound()}
         })
 //        alert.addActions([actionOne,actionTwo,actionThree])
         alert.addAction(actionOne)

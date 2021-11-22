@@ -15,7 +15,8 @@ var storage = TownsStorage.shared
 var currentPickedTown: RealWeatherModelProtocol?
 var closure: ((RealWeatherModelProtocol?) -> ())?
 var activityIndicator = UIActivityIndicatorView()
-    
+var locationManager = LocationManager()
+
     
 
     
@@ -39,10 +40,65 @@ var activityIndicator = UIActivityIndicatorView()
     
     
     
-func noWeatherFound(){}
+func noWeatherFound(){
+
+    let vcAlert = UIAlertController(title: "Городов нет!", message: "Давайте их найдем", preferredStyle: .alert)
+   
+    let one = UIAlertAction(title: "По названию", style: .default, handler: { _ in
+        let vc = TownAddController()
+        vc.closure = { [weak self ] town in
+            DispatchQueue.main.async {
+                self?.currentPickedTown = town
+                self?.downloadInProgress()
+                self?.reloadWeather()
+            }
+    }
+        self.present(vc, animated: true, completion: nil)
+    })
+    let two = UIAlertAction(title: "Найти на карте", style: .default, handler: {_ in
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewController(identifier: "MapViewController") as! MapViewController
+        vc.closure = {[weak self] data in
+            self?.currentPickedTown = data
+            self?.reloadWeather()
+        }
+        self.navigationController?.pushViewController(vc, animated: true)
+    })
+    let thee = UIAlertAction(title: "По вашей локации", style: .default, handler: { _ in
+        
+        
+        guard let location = self.locationManager.currentLocation else {return}
+        let lat = Float(location.latitude)
+        let lon = Float(location.longitude)
+
+        self.storage.addTown(lat, lon){ [weak self ] data in
+            guard let data = data else {return}
+            DispatchQueue.main.async {
+                self?.downloadInProgress()
+                self?.storage.addTown(data)
+                self?.currentPickedTown = data
+                self?.reloadWeather()
+            }
+        }
+    })
+    
+    vcAlert.addAction(one)
+    vcAlert.addAction(two)
+    vcAlert.addAction(thee)
+    self.present(vcAlert, animated: true, completion: nil)
+    
+}
     
     override func viewDidLoad() {
        
+        locationManager.delegate = self
+        
+        locationManager.requestWhenInUseAuthorization()
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+            locationManager.requestLocation()
+        }
+        
         
         downloadInProgress()
         view.backgroundColor = .black
@@ -55,4 +111,24 @@ func noWeatherFound(){}
     }
 }
 
+extension BasedViewController : CLLocationManagerDelegate {
 
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+         print("error:: \(error.localizedDescription)")
+    }
+
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            locationManager.requestLocation()
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+
+        if locations.first != nil {
+            locationManager.currentLocation = locations.first?.coordinate
+        }
+
+    }
+
+}
