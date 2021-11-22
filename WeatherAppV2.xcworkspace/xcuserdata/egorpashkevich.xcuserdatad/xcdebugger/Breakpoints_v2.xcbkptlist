@@ -114,38 +114,6 @@
             endingLineNumber = "135"
             landmarkName = "getWeather(_:_:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "1EDD570A-8206-4705-9307-10A9C151EC04 - 51f28c35020a85b7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;) -&gt; () in static WeatherAppV2.WeatherDownloader.getWeather(Swift.Array&lt;Swift.String&gt;, (Swift.Optional&lt;Swift.Array&lt;WeatherAppV2.RealWeatherModelProtocol&gt;&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "WeatherAppV2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/egorpashkevich/Desktop/WeatherApp2/Weather%20App/Model/WeatherDownloader.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "135"
-                  endingLineNumber = "135"
-                  offsetFromSymbolStart = "685">
-               </Location>
-               <Location
-                  uuid = "1EDD570A-8206-4705-9307-10A9C151EC04 - 8db320ba567268ad"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (WeatherAppV2.TownWeather) -&gt; WeatherAppV2.RealWeatherModel in closure #1 (Swift.Optional&lt;Foundation.Data&gt;) -&gt; () in static WeatherAppV2.WeatherDownloader.getWeather(Swift.Array&lt;Swift.String&gt;, (Swift.Optional&lt;Swift.Array&lt;WeatherAppV2.RealWeatherModelProtocol&gt;&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "WeatherAppV2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/egorpashkevich/Desktop/WeatherApp2/Weather%20App/Model/WeatherDownloader.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "135"
-                  endingLineNumber = "135"
-                  offsetFromSymbolStart = "37">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -366,6 +334,22 @@
             endingLineNumber = "179"
             landmarkName = "loadView()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C1935E8F-25AE-4051-B3B5-65FC4124B370"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherApp/SceneDelegate.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1"
+            endingLineNumber = "1"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
