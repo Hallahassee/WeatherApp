@@ -15,15 +15,15 @@ protocol TownsStorageProtocol {
     var allTowns: [RealWeatherModelProtocol] {get}
     func addTown (_ town: String,  _ completion : @escaping (RealWeatherModelProtocol?) ->())
     func addTown(_ town: RealWeatherModelProtocol)
-    func addTown (_ lat: Float , _ lon : Float, _ completion : @escaping (RealWeatherModelProtocol?) ->())
+    func addTown (_ lat: Double , _ lon : Double, _ completion : @escaping (RealWeatherModelProtocol?) ->())
     func deleteTown (_ town : RealWeatherModelProtocol)
     func clearAll()
     func reloadAllTowns(_ completion : @escaping ()->())
-    func reloadTown(_ town : RealWeatherModelProtocol)
-    func getTown(byName town: String) -> RealWeatherModelProtocol
     func save()
     func load(_ completion : @escaping (Bool)->())
     func placeStatus(_ place : RealWeatherModelProtocol) ->  Bool
+    func findTownByGeo(_ lat: Double, _ lon : Double) -> RealWeatherModelProtocol? 
+    
     
  }
 
@@ -34,10 +34,26 @@ protocol TownsStorageProtocol {
 
 
 class TownsStorage: TownsStorageProtocol {
+   
+    
+    func findTownByGeo(_ lat: Double, _ lon : Double) -> RealWeatherModelProtocol? {
+       let result = allTowns.first(where: { if $0.lat == lat , $0.lon == lon {return true}
+       else {
+        return false
+       }
+       })
+        return result
+    }
+    
+    
+    
     func clearAll() {
         CoreDataStorage.clearAll()
         allTowns.removeAll()
     }
+    
+    
+    
     
     
     func placeStatus(_ place : RealWeatherModelProtocol) ->  Bool {
@@ -48,7 +64,7 @@ class TownsStorage: TownsStorageProtocol {
     }
     
     
-    func addTown(_ lat: Float, _ lon: Float, _ completion: @escaping (RealWeatherModelProtocol?) -> ()) {
+    func addTown(_ lat: Double, _ lon: Double, _ completion: @escaping (RealWeatherModelProtocol?) -> ()) {
         WeatherDownloader.getWeather(lat, lon, { [weak self] data in
             
             guard let data = data else {completion(nil) ; return}
@@ -106,13 +122,7 @@ static var shared: TownsStorageProtocol = TownsStorage()
         return result
     }
     
-    func reloadTown(_ town: RealWeatherModelProtocol) {
 
-    }
-        
-    
-    
-    
     func reloadAllTowns(_ completion : @escaping ()->()) {
         guard self.count == 0 else {completion()
             return

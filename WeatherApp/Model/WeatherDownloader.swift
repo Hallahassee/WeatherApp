@@ -12,7 +12,7 @@ protocol WeatherDownloaderProtocol {
     static var  storage: TownsStorageProtocol {get}
     static func getWeather( _ town: String, _ completion : @escaping (RealWeatherModelProtocol?) ->())
     static func getWeather(  _ id : [String], _ completion: @escaping (([RealWeatherModelProtocol]?)->()))
-    static func getWeather(  _ lat: Float,  _ lon: Float,   _ completion: @escaping ((RealWeatherModelProtocol?)->()))
+    static func getWeather(  _ lat: Double,  _ lon: Double,   _ completion: @escaping ((RealWeatherModelProtocol?)->()))
     static func getWeather(  _ idAndName : [String:String], _ completion: @escaping (([RealWeatherModelProtocol]?)->()))
 
 
@@ -56,7 +56,7 @@ class WeatherDownloader: WeatherDownloaderProtocol {
         
     
     
-    static func getWeather(_ lat: Float, _ lon: Float, _ completion: @escaping ((RealWeatherModelProtocol?) -> ())) {
+    static func getWeather(_ lat: Double, _ lon: Double, _ completion: @escaping ((RealWeatherModelProtocol?) -> ())) {
         let apiKey = "5740ecf7c8bb27efbce428a1b7e35f7a"
        let url =  "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&lang=ru&units=metric&appid=\(apiKey)"
         NetworkController.getData(fromUrl: url) { (data)  in

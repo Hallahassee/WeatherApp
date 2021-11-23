@@ -16,7 +16,7 @@ class TownAddController: GMSAutocompleteViewController {
    
     var storage: TownsStorageProtocol = TownsStorage.shared
     
-    var closure: ((RealWeatherModelProtocol)->())?
+    var closure: ((RealWeatherModelProtocol?)->())?
     
     
     override func viewDidLoad() {
@@ -29,8 +29,6 @@ class TownAddController: GMSAutocompleteViewController {
         
         
                 self.placeFields = fields
-        
-                // Specify a filter.
                 let filter = GMSAutocompleteFilter()
                 filter.type = .city
                 self.autocompleteFilter = filter
@@ -40,13 +38,12 @@ class TownAddController: GMSAutocompleteViewController {
 
 extension TownAddController: GMSAutocompleteViewControllerDelegate {
 
-  // Handle the user's selection.
   func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
 
     
     storage.addTown(place.name!) { [weak self] town in
             DispatchQueue.main.async {
-                guard let town = town else {self?.troubleDetected("Не получается добавить город"); return}
+                guard let town = town else {return}
                 self?.closure!(town)
                 self?.dismiss(animated: true, completion: nil)
             }
@@ -55,13 +52,11 @@ extension TownAddController: GMSAutocompleteViewControllerDelegate {
   }
 
   func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
-    // TODO: handle the error.
     print("Error: ", error.localizedDescription)
   }
 
-  // User canceled the operation.
   func wasCancelled(_ viewController: GMSAutocompleteViewController) {
-    if storage.count == 0 {self.troubleDetected("Добавьте хотя бы один город")}
+    if storage.count == 0 {closure!(nil)}
     dismiss(animated: true, completion: nil)
   }
 
@@ -74,10 +69,5 @@ extension TownAddController: GMSAutocompleteViewControllerDelegate {
 
 
 
-func troubleDetected(_ message: String) {
-    let alert = UIAlertController(title: "Что-то пошло не так", message: message, preferredStyle: .alert)
-    let ok = UIAlertAction.init(title: "Попробовать еще раз", style: .default, handler: nil)
-    alert.addAction(ok)
-    present(alert, animated: true, completion: nil)
-}
+
 }

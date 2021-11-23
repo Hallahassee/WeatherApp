@@ -26,14 +26,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         
             
             case 1 :
-            
-            
             let alert =  UIAlertController(title: "Место добавлено", message: "", preferredStyle: .actionSheet)
             self.present(alert, animated: true, completion: {alert.dismiss(animated: true, completion: nil)})
             annotation.placeStatus = true
             storage.addTown(currentPickedTown!)
             view.rightCalloutAccessoryView?.isHidden = true
             self.closure?(currentPickedTown!)
+            
+            
             case 2 :
             let storyBoard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyBoard.instantiateViewController(identifier: "MainVC") as! WeatherShowController
@@ -93,7 +93,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         let location = gestureRecognizer.location(in: mapView)
         let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
         
-        WeatherDownloader.getWeather(Float(coordinate.latitude), Float(coordinate.longitude)) { [weak self] data in
+        WeatherDownloader.getWeather(coordinate.latitude, coordinate.longitude) { [weak self] data in
            
             DispatchQueue.main.async { [weak self] in
                 

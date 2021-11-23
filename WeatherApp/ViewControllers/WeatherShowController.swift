@@ -41,15 +41,25 @@ class WeatherShowController: BasedViewController {
       @IBAction func toMap(_ sender: Any) {
 performSegue(withIdentifier: "toMap", sender: self)
 }
+    
+    
+    
     @IBAction func geo(_ sender: Any) {
+        self.textDescriptors.forEach({$0.isHidden = true})
+        
+        
         guard let location = locationManager.currentLocation else {return}
-        let lat = Float(location.latitude)
-        let lon = Float(location.longitude)
+        let lat = location.latitude
+        let lon = location.longitude
+        
+         if let town = storage.findTownByGeo(lat, lon) {
+            currentPickedTown = town
+            reloadWeather()
+         }
 
         self.storage.addTown(lat, lon){ [weak self ] data in
             guard let data = data else {return}
             DispatchQueue.main.async {
-                self?.downloadInProgress()
                 self?.storage.addTown(data)
                 self?.currentPickedTown = data
                 self?.reloadWeather()
@@ -61,14 +71,7 @@ performSegue(withIdentifier: "toMap", sender: self)
     
     @IBOutlet  var buttonsStack: UIStackView!
     
-    @IBAction func swipeDown(_ sender: Any) {
 
-    
-        self.downloadInProgress()
-        self.storage.reloadAllTowns {
-            self.reloadWeather()
-        }
-    }
     
     @IBAction func allTowns(_ sender: Any) {
         
@@ -78,6 +81,7 @@ performSegue(withIdentifier: "toMap", sender: self)
     
     
     @IBAction func addTown(_ sender: Any) {
+      
         let vc = TownAddController()
         vc.closure = { [weak self ] town in
             self?.currentPickedTown = town
@@ -115,21 +119,7 @@ present(vc, animated: true, completion: nil)
         textDescriptors.forEach({$0.isHidden = false ; $0.setTemp(town)})
         }
         
-//
-//    internal override func noWeatherFound(){
-//
-//        let vc = TownAddController()
-//        vc.closure = {[weak self] data in
-//
-//            self?.currentPickedTown = data
-//            self?.downloadInProgress()
-//            self?.reloadWeather()
-//        }
-//        present(vc, animated: true, completion: {
-//            self.downloadInProgress()})
-//
-//
-//    }
+
 
   // MARK: LifeCicle of View
    
@@ -151,10 +141,8 @@ present(vc, animated: true, completion: nil)
 
     
     override func viewDidLoad() {
-//        textDescriptors.forEach({$0.layer.shadowOpacity = 0.15; $0.textColor = .white ; $0.shadowOffset = CGSize(width: 2, height: 2)})
         super.viewDidLoad()
-//        reloadWeather()
-
+        if mainMode == false {self.reloadWeather()}
 }
 
 

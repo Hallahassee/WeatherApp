@@ -11,7 +11,8 @@ class CollectionAllTowns: BasedViewController, UICollectionViewDelegate, UIColle
   
     @IBOutlet weak var collection: UICollectionView!
 
-    
+    let refreshControl = UIRefreshControl()
+
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         storage.count
@@ -34,7 +35,12 @@ class CollectionAllTowns: BasedViewController, UICollectionViewDelegate, UIColle
         
     }
     
-
+    @objc func refresh(_ sender: AnyObject) {
+        storage.reloadAllTowns { [weak self] in
+            self?.reloadWeather()
+            self?.refreshControl.endRefreshing()
+        }
+    }
     
     
     @objc func longPress(longPressGestureRecognizer: UILongPressGestureRecognizer) {
@@ -42,7 +48,6 @@ class CollectionAllTowns: BasedViewController, UICollectionViewDelegate, UIColle
 
     let touchPoint = longPressGestureRecognizer.location(in: collection)
         if let indexPath = collection.indexPathForItem(at: touchPoint) {
-    print("longPress: \(indexPath.row)")
             let cell = collection.cellForItem(at: indexPath) as! WeatherCollectionCell
             cell.isSelected = true
             self.present(alertForCell(indexPath), animated: true, completion: nil)
@@ -54,6 +59,7 @@ class CollectionAllTowns: BasedViewController, UICollectionViewDelegate, UIColle
     override func reloadWeather() {
         super.reloadWeather()
         self.collection.reloadData()
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     
@@ -68,6 +74,11 @@ class CollectionAllTowns: BasedViewController, UICollectionViewDelegate, UIColle
         collection.register(collectionCell, forCellWithReuseIdentifier: "WeatherCollectionCell")
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(longPressGestureRecognizer:)))
         collection.addGestureRecognizer(longPressRecognizer)
+        
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+        collection.refreshControl = refreshControl
+        
+        
     }
     
     
@@ -105,7 +116,7 @@ class CollectionAllTowns: BasedViewController, UICollectionViewDelegate, UIColle
             self?.collection.reloadData()
             if self?.storage.count == 0 {self?.noWeatherFound()}
         })
-//        alert.addActions([actionOne,actionTwo,actionThree])
+
         alert.addAction(actionOne)
         alert.addAction(actionTwo)
         alert.addAction(actionThree)
@@ -113,3 +124,5 @@ class CollectionAllTowns: BasedViewController, UICollectionViewDelegate, UIColle
     }
 
 }
+
+

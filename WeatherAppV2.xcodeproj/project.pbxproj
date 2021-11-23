@@ -18,7 +18,7 @@
 		CC887AF9274399200073BDC1 /* TempDescriptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC887AF8274399200073BDC1 /* TempDescriptors.swift */; };
 		CC887AFC2744C2AA0073BDC1 /* TextDescriptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC887AFB2744C2AA0073BDC1 /* TextDescriptors.swift */; };
 		CC887AFE2744C37E0073BDC1 /* ImageDescriptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC887AFD2744C37E0073BDC1 /* ImageDescriptors.swift */; };
-		CC887B002744C7160073BDC1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC887AFF2744C7160073BDC1 /* ViewController.swift */; };
+		CC887B002744C7160073BDC1 /* BasedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC887AFF2744C7160073BDC1 /* BasedViewController.swift */; };
 		CC887B0827461BEF0073BDC1 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC887B0727461BEF0073BDC1 /* Location.swift */; };
 		CC887B0C274640DC0073BDC1 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC887B0B274640DB0073BDC1 /* MapViewController.swift */; };
 		CC887B12274B57B30073BDC1 /* WeatherCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC887B10274B57B30073BDC1 /* WeatherCollectionCell.swift */; };
@@ -50,7 +50,7 @@
 		CC887AFA2743B8CC0073BDC1 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CC887AFB2744C2AA0073BDC1 /* TextDescriptors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDescriptors.swift; sourceTree = "<group>"; };
 		CC887AFD2744C37E0073BDC1 /* ImageDescriptors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDescriptors.swift; sourceTree = "<group>"; };
-		CC887AFF2744C7160073BDC1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CC887AFF2744C7160073BDC1 /* BasedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasedViewController.swift; sourceTree = "<group>"; };
 		CC887B0727461BEF0073BDC1 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		CC887B0B274640DB0073BDC1 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		CC887B10274B57B30073BDC1 /* WeatherCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCollectionCell.swift; sourceTree = "<group>"; };
@@ -161,7 +161,7 @@
 			children = (
 				CC1F20B827310CBB00833670 /* WeatherShowController.swift */,
 				CC887AF4274239390073BDC1 /* TownAddController.swift */,
-				CC887AFF2744C7160073BDC1 /* ViewController.swift */,
+				CC887AFF2744C7160073BDC1 /* BasedViewController.swift */,
 				CC887B0B274640DB0073BDC1 /* MapViewController.swift */,
 				CC887B14274B5AF00073BDC1 /* CollectionAllTowns.swift */,
 			);
@@ -297,7 +297,7 @@
 				CC1F20B927310CBB00833670 /* WeatherShowController.swift in Sources */,
 				CC904BC92732856700BC060C /* NetworkDataModel.swift in Sources */,
 				CC1F20B527310CBB00833670 /* AppDelegate.swift in Sources */,
-				CC887B002744C7160073BDC1 /* ViewController.swift in Sources */,
+				CC887B002744C7160073BDC1 /* BasedViewController.swift in Sources */,
 				CC887AFE2744C37E0073BDC1 /* ImageDescriptors.swift in Sources */,
 				CCC755A827328EB300BEFE5D /* WeatherDownloader.swift in Sources */,
 				CC904BCB273285B500BC060C /* RealWeatherModel.swift in Sources */,

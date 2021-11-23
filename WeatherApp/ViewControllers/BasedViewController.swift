@@ -68,8 +68,8 @@ func noWeatherFound(){
         
         
         guard let location = self.locationManager.currentLocation else {return}
-        let lat = Float(location.latitude)
-        let lon = Float(location.longitude)
+        let lat = location.latitude
+        let lon = location.longitude
 
         self.storage.addTown(lat, lon){ [weak self ] data in
             guard let data = data else {return}
