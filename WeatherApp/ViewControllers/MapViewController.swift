@@ -10,12 +10,23 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognizerDelegate {
    
+    // MARK: Vars And Outlets
     var storage: TownsStorageProtocol = TownsStorage.shared
     var currentPickedTown: RealWeatherModelProtocol?
     var closure: ((RealWeatherModelProtocol?) -> ())?
+    var curretnLocationTown: RealWeatherModelProtocol?
     @IBOutlet weak var mapView: MKMapView!
 
-
+// MARK: Work with Annotations
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        view.isEnabled = true
+    }
+    
+    func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+        views.forEach({$0.isSelected = true})
+    }
+    
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
@@ -26,8 +37,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         
             
             case 1 :
-            let alert =  UIAlertController(title: "Место добавлено", message: "", preferredStyle: .actionSheet)
-            self.present(alert, animated: true, completion: {alert.dismiss(animated: true, completion: nil)})
+            townAddedAlert()
             annotation.placeStatus = true
             storage.addTown(currentPickedTown!)
             view.rightCalloutAccessoryView?.isHidden = true
@@ -54,7 +64,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         guard let annotation = (annotation as? WeatherAnnorationPoint) else {return nil}
         
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "WeatherPin")
-        if annotation.placeStatus! { annotationView?.rightCalloutAccessoryView?.isHidden = true} else {annotationView?.rightCalloutAccessoryView?.isHidden = false}
+        if annotation.placeStatus { annotationView?.rightCalloutAccessoryView?.isHidden = true} else {annotationView?.rightCalloutAccessoryView?.isHidden = false}
         WeatherDownloader.getImage(annotation.imageID!, { data in
             
             DispatchQueue.main.async {
@@ -82,11 +92,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
                 }
             })
         }
-        if annotation.placeStatus! { annotationView?.rightCalloutAccessoryView?.isHidden = true} else {annotationView?.rightCalloutAccessoryView?.isHidden = false}
+        if annotation.placeStatus { annotationView?.rightCalloutAccessoryView?.isHidden = true} else {annotationView?.rightCalloutAccessoryView?.isHidden = false}
         return annotationView
     }
     
-    
+    // MARK: HandelTap
     
     @objc func handleTap(gestureRecognizer: UITapGestureRecognizer) {
        
@@ -99,9 +109,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
                 
                 guard let data = data else {return}
                 let annotation = WeatherAnnorationPoint()
-                annotation.placeStatus = self?.storage.placeStatus(data)
                 annotation.setTemp(data)
-                self?.mapView.removeAnnotations((self?.mapView.annotations)!)
+                annotation.placeStatus = ((self?.storage.placeStatus(data)) != nil)
+                let deletedAnnotations = self?.mapView.annotations as! [WeatherAnnorationPoint]
+                
+                
+                self?.mapView.removeAnnotations(deletedAnnotations.filter({$0.isCurrentPlace != true}))
                 annotation.coordinate = coordinate
                 self?.mapView.addAnnotation(annotation)
                 self?.currentPickedTown = data
@@ -111,13 +124,28 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
       
     }
     
- func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        view.isEnabled = true
-    }
+    // MARK: route
     
-    func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
-        views.forEach({$0.isSelected = true})
-    }
+//    func showRoute(toAnnotation annotation : WeatherAnnorationPoint) {
+//        
+//        guard let sourse = self.curretnLocationTown else {return}
+//
+//        
+//        let sourceLocation = CLLocationCoordinate2D(latitude: sourse.lat, longitude: sourse.lon)
+//        let destinationLocation = annotation.coordinate
+//        
+//        let sourcePlacemark = MKPlacemark(coordinate: sourceLocation, addressDictionary: nil)
+//        let destinationPlacemark = MKPlacemark(coordinate: destinationLocation, addressDictionary: nil)
+//        
+//        
+//        
+//    }
+    
+    
+    
+    // MARK: MapView behavior and setups
+    
+
     
     
     func setupMap() {
@@ -135,8 +163,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         currentTownAnnotation.coordinate = location
         currentTownAnnotation.placeStatus = true
         mapView.addAnnotation(currentTownAnnotation)
+        currentTownAnnotation.isCurrentPlace = true
         
     }
+    
+    // MARK: View LifeCicle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -157,12 +188,21 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
     
     
 }
-
+// MARK: ErrorHandling
 extension MapViewController: ErrorDelegetaProtocol {
     func networkError() {
         self.navigationController?.popToRootViewController(animated: true)
+        closure?(nil)
         
     }
+}
+// MARK: Alerts:
+extension MapViewController {
     
+    func townAddedAlert() {
+        let alert =  UIAlertController(title: "Место добавлено", message: "", preferredStyle: .actionSheet)
+        self.present(alert, animated: true, completion: {alert.dismiss(animated: true, completion: nil)})
+    }
     
 }
+

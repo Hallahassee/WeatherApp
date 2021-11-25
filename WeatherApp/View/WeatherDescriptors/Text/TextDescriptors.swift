@@ -10,26 +10,11 @@ import UIKit
 import MapKit
 
 
-class WeatherAnnorationPoint: MKPointAnnotation, ViewDescriptorsProtocol {
-    
-    var imageID: String?
-    var placeStatus : Bool?
-    
-    func setTemp(_ model : RealWeatherModelProtocol) {
-        self.title = model.town
-        let temp = model.temp
-        if temp > 0 {
-            self.subtitle = "+\(temp)°C"
-        } else {
-            self.subtitle = "\(temp)°C"
-        }
-        self.imageID = model.icon
-    }
-}
 
 
 
-class TextWeatherDescriptor: UILabel, ViewDescriptorsProtocol {
+
+class TextWeatherDescriptor: UILabel, WeatherDescriptorsProtocol {
     func setTemp(_ model: RealWeatherModelProtocol) {
         self.layer.shadowOpacity = 0.25
         self.textColor = .white

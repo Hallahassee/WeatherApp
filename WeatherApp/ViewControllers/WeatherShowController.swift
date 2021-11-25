@@ -10,7 +10,8 @@ import MapKit
 
 class WeatherShowController: BasedViewController {
 
-    
+    // MARK: Segues
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     
     switch segue.identifier {

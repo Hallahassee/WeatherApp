@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol ViewDescriptorsProtocol {
+protocol WeatherDescriptorsProtocol {
     func setTemp(_ model: RealWeatherModelProtocol )
 }
 

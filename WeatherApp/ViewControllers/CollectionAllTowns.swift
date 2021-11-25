@@ -9,14 +9,19 @@ import UIKit
 
 class CollectionAllTowns: BasedViewController, UICollectionViewDelegate, UICollectionViewDataSource {
   
+    // MARK: Vars and Outlets
+
     @IBOutlet weak var collection: UICollectionView!
 
     let refreshControl = UIRefreshControl()
 
-    
+    // MARK: CollectionView Behavior
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         storage.count
     }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCollectionCell", for: indexPath) as! WeatherCollectionCell
@@ -43,6 +48,9 @@ class CollectionAllTowns: BasedViewController, UICollectionViewDelegate, UIColle
     }
     
     
+    // MARK: HandleTap
+
+    
     @objc func longPress(longPressGestureRecognizer: UILongPressGestureRecognizer) {
     if longPressGestureRecognizer.state == UIGestureRecognizer.State.began {
 
@@ -55,6 +63,8 @@ class CollectionAllTowns: BasedViewController, UICollectionViewDelegate, UIColle
         }}
     }
     
+    // MARK: Custom LifeCicle
+
     
     override func reloadWeather() {
         super.reloadWeather()
@@ -62,7 +72,8 @@ class CollectionAllTowns: BasedViewController, UICollectionViewDelegate, UIColle
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
-    
+    // MARK: View LifeCicle
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,7 +98,12 @@ class CollectionAllTowns: BasedViewController, UICollectionViewDelegate, UIColle
         super .viewWillAppear(animated)
         self.reloadWeather()
     }
+   
     
+    
+    
+    // MARK: Alerts
+
 
     func alertForCell(_ indexPath: IndexPath) -> UIAlertController {
         let alert = UIAlertController(title: "Что нужно сделать?" , message: "", preferredStyle: .alert)

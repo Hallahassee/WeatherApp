@@ -15,8 +15,9 @@
 		CC1F20C127310CBF00833670 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC1F20C027310CBF00833670 /* Assets.xcassets */; };
 		CC1F20C427310CBF00833670 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC1F20C227310CBF00833670 /* LaunchScreen.storyboard */; };
 		CC386E12274F58540052E3D5 /* ErrorDelegete.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC386E11274F58540052E3D5 /* ErrorDelegete.swift */; };
+		CC386E1E274F64CE0052E3D5 /* WeatherAnnotationPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC386E1D274F64CE0052E3D5 /* WeatherAnnotationPoint.swift */; };
 		CC887AF5274239390073BDC1 /* TownAddController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC887AF4274239390073BDC1 /* TownAddController.swift */; };
-		CC887AF9274399200073BDC1 /* TempDescriptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC887AF8274399200073BDC1 /* TempDescriptors.swift */; };
+		CC887AF9274399200073BDC1 /* WeatherDescriptorsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC887AF8274399200073BDC1 /* WeatherDescriptorsProtocol.swift */; };
 		CC887AFC2744C2AA0073BDC1 /* TextDescriptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC887AFB2744C2AA0073BDC1 /* TextDescriptors.swift */; };
 		CC887AFE2744C37E0073BDC1 /* ImageDescriptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC887AFD2744C37E0073BDC1 /* ImageDescriptors.swift */; };
 		CC887B002744C7160073BDC1 /* BasedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC887AFF2744C7160073BDC1 /* BasedViewController.swift */; };
@@ -47,9 +48,9 @@
 		CC1F20C327310CBF00833670 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CC1F20C527310CBF00833670 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CC386E11274F58540052E3D5 /* ErrorDelegete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorDelegete.swift; sourceTree = "<group>"; };
+		CC386E1D274F64CE0052E3D5 /* WeatherAnnotationPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAnnotationPoint.swift; sourceTree = "<group>"; };
 		CC887AF4274239390073BDC1 /* TownAddController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TownAddController.swift; sourceTree = "<group>"; };
-		CC887AF8274399200073BDC1 /* TempDescriptors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempDescriptors.swift; sourceTree = "<group>"; };
-		CC887AFA2743B8CC0073BDC1 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		CC887AF8274399200073BDC1 /* WeatherDescriptorsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDescriptorsProtocol.swift; sourceTree = "<group>"; };
 		CC887AFB2744C2AA0073BDC1 /* TextDescriptors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDescriptors.swift; sourceTree = "<group>"; };
 		CC887AFD2744C37E0073BDC1 /* ImageDescriptors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDescriptors.swift; sourceTree = "<group>"; };
 		CC887AFF2744C7160073BDC1 /* BasedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasedViewController.swift; sourceTree = "<group>"; };
@@ -126,20 +127,94 @@
 				CC1F20C027310CBF00833670 /* Assets.xcassets */,
 				CC1F20C227310CBF00833670 /* LaunchScreen.storyboard */,
 				CC1F20C527310CBF00833670 /* Info.plist */,
-				CC1F20BD27310CBB00833670 /* Weather_App.xcdatamodeld */,
-				CC887AFA2743B8CC0073BDC1 /* MyPlayground.playground */,
 			);
 			path = WeatherApp;
+			sourceTree = "<group>";
+		};
+		CC2D1F5B274F660C002C5A43 /* WeatherDescriptors */ = {
+			isa = PBXGroup;
+			children = (
+				CC887AF8274399200073BDC1 /* WeatherDescriptorsProtocol.swift */,
+				CC386E1A274F64260052E3D5 /* Text */,
+				CC386E1B274F642C0052E3D5 /* Image */,
+				CC386E1C274F64470052E3D5 /* Cells */,
+			);
+			path = WeatherDescriptors;
+			sourceTree = "<group>";
+		};
+		CC386E13274F5D220052E3D5 /* Networks */ = {
+			isa = PBXGroup;
+			children = (
+				CC904BBD2731418C00BC060C /* NetworkController.swift */,
+				CC904BC82732856700BC060C /* NetworkDataModel.swift */,
+			);
+			path = Networks;
+			sourceTree = "<group>";
+		};
+		CC386E14274F5D450052E3D5 /* ErrorDelegete */ = {
+			isa = PBXGroup;
+			children = (
+				CC386E11274F58540052E3D5 /* ErrorDelegete.swift */,
+			);
+			path = ErrorDelegete;
+			sourceTree = "<group>";
+		};
+		CC386E15274F5D620052E3D5 /* Representores */ = {
+			isa = PBXGroup;
+			children = (
+				CCC755A727328EB300BEFE5D /* WeatherDownloader.swift */,
+				CC904BCA273285B500BC060C /* RealWeatherModel.swift */,
+			);
+			path = Representores;
+			sourceTree = "<group>";
+		};
+		CC386E16274F5D790052E3D5 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				CC904BC527327F6000BC060C /* TownsStorage.swift */,
+				CC895F892739358400739733 /* CoreDataStorage.swift */,
+				CC1F20BD27310CBB00833670 /* Weather_App.xcdatamodeld */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		CC386E19274F641C0052E3D5 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				CC386E1D274F64CE0052E3D5 /* WeatherAnnotationPoint.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		CC386E1A274F64260052E3D5 /* Text */ = {
+			isa = PBXGroup;
+			children = (
+				CC887AFB2744C2AA0073BDC1 /* TextDescriptors.swift */,
+			);
+			path = Text;
+			sourceTree = "<group>";
+		};
+		CC386E1B274F642C0052E3D5 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				CC887AFD2744C37E0073BDC1 /* ImageDescriptors.swift */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
+		CC386E1C274F64470052E3D5 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				CC887B10274B57B30073BDC1 /* WeatherCollectionCell.swift */,
+				CC887B11274B57B30073BDC1 /* WeatherCollectionCell.xib */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		CC81CCD5273CEE74001AAD85 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				CC887AF8274399200073BDC1 /* TempDescriptors.swift */,
-				CC887AFB2744C2AA0073BDC1 /* TextDescriptors.swift */,
-				CC887AFD2744C37E0073BDC1 /* ImageDescriptors.swift */,
-				CC887B10274B57B30073BDC1 /* WeatherCollectionCell.swift */,
-				CC887B11274B57B30073BDC1 /* WeatherCollectionCell.xib */,
+				CC2D1F5B274F660C002C5A43 /* WeatherDescriptors */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -147,14 +222,12 @@
 		CC904BBB27313EDD00BC060C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CC904BCA273285B500BC060C /* RealWeatherModel.swift */,
-				CCC755A727328EB300BEFE5D /* WeatherDownloader.swift */,
-				CC904BC82732856700BC060C /* NetworkDataModel.swift */,
-				CC904BBD2731418C00BC060C /* NetworkController.swift */,
-				CC904BC527327F6000BC060C /* TownsStorage.swift */,
-				CC895F892739358400739733 /* CoreDataStorage.swift */,
+				CC386E19274F641C0052E3D5 /* Map */,
+				CC386E16274F5D790052E3D5 /* Storage */,
+				CC386E15274F5D620052E3D5 /* Representores */,
+				CC386E14274F5D450052E3D5 /* ErrorDelegete */,
+				CC386E13274F5D220052E3D5 /* Networks */,
 				CC887B0727461BEF0073BDC1 /* Location.swift */,
-				CC386E11274F58540052E3D5 /* ErrorDelegete.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -287,7 +360,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC887AF5274239390073BDC1 /* TownAddController.swift in Sources */,
-				CC887AF9274399200073BDC1 /* TempDescriptors.swift in Sources */,
+				CC887AF9274399200073BDC1 /* WeatherDescriptorsProtocol.swift in Sources */,
 				CC895F8A2739358400739733 /* CoreDataStorage.swift in Sources */,
 				CC386E12274F58540052E3D5 /* ErrorDelegete.swift in Sources */,
 				CC887B15274B5AF00073BDC1 /* CollectionAllTowns.swift in Sources */,
@@ -302,6 +375,7 @@
 				CC904BC92732856700BC060C /* NetworkDataModel.swift in Sources */,
 				CC1F20B527310CBB00833670 /* AppDelegate.swift in Sources */,
 				CC887B002744C7160073BDC1 /* BasedViewController.swift in Sources */,
+				CC386E1E274F64CE0052E3D5 /* WeatherAnnotationPoint.swift in Sources */,
 				CC887AFE2744C37E0073BDC1 /* ImageDescriptors.swift in Sources */,
 				CCC755A827328EB300BEFE5D /* WeatherDownloader.swift in Sources */,
 				CC904BCB273285B500BC060C /* RealWeatherModel.swift in Sources */,

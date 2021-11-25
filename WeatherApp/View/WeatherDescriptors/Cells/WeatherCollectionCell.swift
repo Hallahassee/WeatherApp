@@ -7,7 +7,7 @@
 
 import UIKit
 
-class WeatherCollectionCell: UICollectionViewCell, ViewDescriptorsProtocol {
+class WeatherCollectionCell: UICollectionViewCell, WeatherDescriptorsProtocol {
     
     override var isSelected: Bool {
         didSet {

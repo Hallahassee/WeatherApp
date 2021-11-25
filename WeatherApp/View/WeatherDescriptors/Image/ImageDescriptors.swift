@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class WeatherImageDescription: UIImageView, ViewDescriptorsProtocol {
+class WeatherImageDescription: UIImageView, WeatherDescriptorsProtocol {
     
     
      func setTemp (_ model: RealWeatherModelProtocol) {

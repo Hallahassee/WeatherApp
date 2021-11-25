@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 
 class BasedViewController: UIViewController {
-
+// MARK: Vars
 var backGroundView = WeatherBackGroindImage()
 var storage = TownsStorage.shared
 var currentPickedTown: RealWeatherModelProtocol?
@@ -21,7 +21,8 @@ var locationManager = LocationManager()
 
     
     
-    
+    // MARK: Cuctom LifeCicle
+
     func reloadWeather(){
         
     if storage.count == 0 {self.noWeatherFound() ; return}
@@ -88,7 +89,8 @@ func noWeatherFound(){
     self.present(vcAlert, animated: true, completion: nil)
     
 }
-    
+    // MARK: View LifeCicle
+
     override func viewDidLoad() {
         NetworkController.errorDelegete = self
         locationManager.delegate = self
@@ -111,6 +113,9 @@ func noWeatherFound(){
     }
 }
 
+
+// MARK: Location
+
 extension BasedViewController : CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -132,6 +137,7 @@ extension BasedViewController : CLLocationManagerDelegate {
     }
 
 }
+// MARK: ErrorHandling
 
 extension BasedViewController: ErrorDelegetaProtocol {
     func networkError() {
