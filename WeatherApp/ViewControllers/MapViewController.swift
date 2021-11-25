@@ -16,6 +16,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
     var closure: ((RealWeatherModelProtocol?) -> ())?
     var curretnLocationTown: RealWeatherModelProtocol?
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var distDescription: UIView!
+    
 
 // MARK: Work with Annotations
     
@@ -45,11 +47,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
             
             
             case 2 :
-            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewController(identifier: "MainVC") as! WeatherShowController
-            vc.currentPickedTown = self.currentPickedTown
-            vc.mainMode = false
-            present(vc, animated: true, completion: nil)
+                infoAlert(forAnnotation: annotation)
             
             return
         default : return
@@ -100,6 +98,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
     
     @objc func handleTap(gestureRecognizer: UITapGestureRecognizer) {
        
+        distDescription.isHidden = true
+        self.mapView.removeOverlays(self.mapView.overlays)
+        
         let location = gestureRecognizer.location(in: mapView)
         let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
         
@@ -124,22 +125,61 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
       
     }
     
-    // MARK: route
+    // MARK: Route
     
-//    func showRoute(toAnnotation annotation : WeatherAnnorationPoint) {
-//        
-//        guard let sourse = self.curretnLocationTown else {return}
-//
-//        
-//        let sourceLocation = CLLocationCoordinate2D(latitude: sourse.lat, longitude: sourse.lon)
-//        let destinationLocation = annotation.coordinate
-//        
-//        let sourcePlacemark = MKPlacemark(coordinate: sourceLocation, addressDictionary: nil)
-//        let destinationPlacemark = MKPlacemark(coordinate: destinationLocation, addressDictionary: nil)
-//        
-//        
-//        
-//    }
+    func setupDistView(forRoute route: MKRoute) {
+        let dist = distDescription.viewWithTag(1) as! UILabel
+        let time = distDescription.viewWithTag(2) as! UILabel
+        dist.text = "Расстояние: \(route.distDescription()) киллометров"
+        time.text = "Время в пути: \(route.timeDescription())"
+        distDescription.isHidden = false
+    }
+    
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = .green
+        renderer.lineWidth = 4.0
+        
+            return renderer
+        }
+    
+    
+    func showRoute(toAnnotation annotation : WeatherAnnorationPoint) {
+        
+        guard let sourse = self.curretnLocationTown else {return}
+        self.distDescription.isHidden = true
+        self.mapView.removeOverlays(self.mapView.overlays)
+        
+        let sourceLocation = CLLocationCoordinate2D(latitude: sourse.lat, longitude: sourse.lon)
+        let destinationLocation = annotation.coordinate
+        
+        let sourcePlacemark = MKPlacemark(coordinate: sourceLocation, addressDictionary: nil)
+        let destinationPlacemark = MKPlacemark(coordinate: destinationLocation, addressDictionary: nil)
+        
+        
+        let sourceMapItem = MKMapItem(placemark: sourcePlacemark)
+        let destinationMapItem = MKMapItem(placemark: destinationPlacemark)
+        
+        let directionRequest = MKDirections.Request()
+        directionRequest.source = sourceMapItem
+        directionRequest.destination = destinationMapItem
+        directionRequest.transportType = .automobile
+        
+        let directions = MKDirections(request: directionRequest)
+        directions.calculate() { [weak self] response, error in
+            if error != nil {self?.routEror()}
+            guard let response = response else {return}
+            for route in response.routes {
+                self?.mapView.addOverlay(route.polyline, level: .aboveRoads)
+                self?.setupDistView(forRoute: route)
+        
+            }
+            
+        }
+
+        
+    }
     
     
     
@@ -164,6 +204,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         currentTownAnnotation.placeStatus = true
         mapView.addAnnotation(currentTownAnnotation)
         currentTownAnnotation.isCurrentPlace = true
+        curretnLocationTown = currentPickedTown
         
     }
     
@@ -171,6 +212,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.distDescription.isHidden = true
         self.setupMap()
         self.navigationController?.isNavigationBarHidden = false
         
@@ -198,6 +240,34 @@ extension MapViewController: ErrorDelegetaProtocol {
 }
 // MARK: Alerts:
 extension MapViewController {
+    
+    func infoAlert(forAnnotation annotation: WeatherAnnorationPoint) {
+        let alert =  UIAlertController(title: "Что нужно сдеолать?", message: "", preferredStyle: .alert)
+        let actionone = UIAlertAction(title: "Показать подробнее", style: .default) {_ in
+            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyBoard.instantiateViewController(identifier: "MainVC") as! WeatherShowController
+            vc.currentPickedTown = self.currentPickedTown
+            vc.mainMode = false
+            self.present(vc, animated: true, completion: nil)
+        }
+        
+        let actionTwo = UIAlertAction(title: "Провести маршрут", style: .default) {_ in
+            self.showRoute(toAnnotation: annotation)
+        }
+        let actionThree = UIAlertAction(title: "Закрыть", style: .default, handler: nil)
+        
+        alert.addAction(actionone)
+        alert.addAction(actionTwo)
+        alert.addAction(actionThree)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func routEror() {
+        let alert =  UIAlertController(title: "На машине сюда не добраться!", message: "", preferredStyle: .alert)
+        let close = UIAlertAction(title: "Закрыть", style: .default, handler: nil)
+        alert.addAction(close)
+        self.present(alert, animated: true, completion: nil)
+    }
     
     func townAddedAlert() {
         let alert =  UIAlertController(title: "Место добавлено", message: "", preferredStyle: .actionSheet)

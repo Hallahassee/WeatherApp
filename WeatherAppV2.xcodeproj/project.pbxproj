@@ -14,6 +14,7 @@
 		CC1F20BF27310CBB00833670 /* Weather_App.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CC1F20BD27310CBB00833670 /* Weather_App.xcdatamodeld */; };
 		CC1F20C127310CBF00833670 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC1F20C027310CBF00833670 /* Assets.xcassets */; };
 		CC1F20C427310CBF00833670 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC1F20C227310CBF00833670 /* LaunchScreen.storyboard */; };
+		CC2D1F5E274F6BBB002C5A43 /* RouteDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2D1F5D274F6BBB002C5A43 /* RouteDescription.swift */; };
 		CC386E12274F58540052E3D5 /* ErrorDelegete.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC386E11274F58540052E3D5 /* ErrorDelegete.swift */; };
 		CC386E1E274F64CE0052E3D5 /* WeatherAnnotationPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC386E1D274F64CE0052E3D5 /* WeatherAnnotationPoint.swift */; };
 		CC887AF5274239390073BDC1 /* TownAddController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC887AF4274239390073BDC1 /* TownAddController.swift */; };
@@ -47,6 +48,7 @@
 		CC1F20C027310CBF00833670 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CC1F20C327310CBF00833670 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CC1F20C527310CBF00833670 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CC2D1F5D274F6BBB002C5A43 /* RouteDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteDescription.swift; sourceTree = "<group>"; };
 		CC386E11274F58540052E3D5 /* ErrorDelegete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorDelegete.swift; sourceTree = "<group>"; };
 		CC386E1D274F64CE0052E3D5 /* WeatherAnnotationPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAnnotationPoint.swift; sourceTree = "<group>"; };
 		CC887AF4274239390073BDC1 /* TownAddController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TownAddController.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 		CC1F20B327310CBB00833670 /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				CC2D1F5C274F6BA8002C5A43 /* Helpers */,
 				CCC755A92738EBF900BEFE5D /* ViewControllers */,
 				CC904BBB27313EDD00BC060C /* Model */,
 				CC81CCD5273CEE74001AAD85 /* View */,
@@ -140,6 +143,14 @@
 				CC386E1C274F64470052E3D5 /* Cells */,
 			);
 			path = WeatherDescriptors;
+			sourceTree = "<group>";
+		};
+		CC2D1F5C274F6BA8002C5A43 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				CC2D1F5D274F6BBB002C5A43 /* RouteDescription.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		CC386E13274F5D220052E3D5 /* Networks */ = {
@@ -371,6 +382,7 @@
 				CC887B0C274640DC0073BDC1 /* MapViewController.swift in Sources */,
 				CC887AFC2744C2AA0073BDC1 /* TextDescriptors.swift in Sources */,
 				CC904BBE2731418C00BC060C /* NetworkController.swift in Sources */,
+				CC2D1F5E274F6BBB002C5A43 /* RouteDescription.swift in Sources */,
 				CC1F20B927310CBB00833670 /* WeatherShowController.swift in Sources */,
 				CC904BC92732856700BC060C /* NetworkDataModel.swift in Sources */,
 				CC1F20B527310CBB00833670 /* AppDelegate.swift in Sources */,
