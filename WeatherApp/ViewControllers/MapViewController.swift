@@ -158,4 +158,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
     
 }
 
-
+extension MapViewController: ErrorDelegetaProtocol {
+    func networkError() {
+        self.navigationController?.popToRootViewController(animated: true)
+        
+    }
+    
+    
+}

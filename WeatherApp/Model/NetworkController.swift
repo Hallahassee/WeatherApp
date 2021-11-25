@@ -10,10 +10,13 @@ import Foundation
 protocol NetWorkControllerProtocol {
 
 static func getData(fromUrl url : String , _ complition : @escaping (Data?) -> ())
+    static var errorDelegete: ErrorDelegetaProtocol? {get set}
 
 }
 
 public class NetworkController: NetWorkControllerProtocol {
+    static var errorDelegete: ErrorDelegetaProtocol?
+    
 
     
        
@@ -27,7 +30,13 @@ public class NetworkController: NetWorkControllerProtocol {
         
             let session = URLSession.shared
             session.dataTask(with: url) {  (data, response, error ) in
-          complition(data)
+                if error != nil {
+                    DispatchQueue.main.async {
+                        self.errorDelegete?.networkError()
+                    }
+                    
+                }
+                complition(data)
             }.resume()
                 
         }

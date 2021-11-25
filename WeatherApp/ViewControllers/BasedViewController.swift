@@ -90,7 +90,7 @@ func noWeatherFound(){
 }
     
     override func viewDidLoad() {
-       
+        NetworkController.errorDelegete = self
         locationManager.delegate = self
         
         locationManager.requestWhenInUseAuthorization()
@@ -131,4 +131,19 @@ extension BasedViewController : CLLocationManagerDelegate {
 
     }
 
+}
+
+extension BasedViewController: ErrorDelegetaProtocol {
+    func networkError() {
+        let alert = UIAlertController(title: "Проблемы с интернетом", message: "Проверьте ваше интернет-соеденение", preferredStyle: .alert)
+        let actionOne = UIAlertAction(title: "Попробовать еще раз", style: .default, handler: {_ in self.reloadWeather()})
+        let actionTwo = UIAlertAction(title: "Закрыть приложение" , style: .destructive) { _ in
+            exit(0)
+        }
+        alert.addAction(actionOne)
+        alert.addAction(actionTwo)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    
 }

@@ -71,3 +71,11 @@ extension TownAddController: GMSAutocompleteViewControllerDelegate {
 
 
 }
+extension TownAddController : ErrorDelegetaProtocol {
+    func networkError() {
+        self.navigationController?.popToRootViewController(animated: true)
+        
+    }
+    
+    
+}
