@@ -8,7 +8,21 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognizerDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognizerDelegate, WeatherAnnotationViewDelegeteProtocol{
+    func moreInfoTapped() {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewController(identifier: "MainVC") as! WeatherShowController
+        vc.currentPickedTown = self.currentPickedTown
+        vc.mainMode = false
+        self.present(vc, animated: true, completion: nil)
+    }
+    
+    func routeShowTapped(toAnnotation annotation: WeatherAnnorationPoint) {
+        showRoute(toAnnotation: annotation)
+    }
+    
+ 
+    
    
     // MARK: Vars And Outlets
     var storage: TownsStorageProtocol = TownsStorage.shared
@@ -16,7 +30,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
     var closure: ((RealWeatherModelProtocol?) -> ())?
     var curretnLocationTown: RealWeatherModelProtocol?
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var distDescription: UIView!
+    @IBOutlet weak var distDescription: RoutDescriptionView!
+    
     
 
 // MARK: Work with Annotations
@@ -55,44 +70,39 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
     }
     }
     
-    
+
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         guard let annotation = (annotation as? WeatherAnnorationPoint) else {return nil}
         
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "WeatherPin")
-        if annotation.placeStatus { annotationView?.rightCalloutAccessoryView?.isHidden = true} else {annotationView?.rightCalloutAccessoryView?.isHidden = false}
-        WeatherDownloader.getImage(annotation.imageID!, { data in
-            
-            DispatchQueue.main.async {
-                guard let data = data else {return}
-                annotationView?.image = UIImage(data: data)
-            }
-        })
+        let identifier = "WeatherPin"
+        var view: WeatherAnnotationView
         
         
-        if annotationView == nil {
-            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "WeatherPin")
-            let rightButton = UIButton(type: .contactAdd)
-            let leftButton = UIButton(type: .detailDisclosure)
-            rightButton.tag = 1
-            leftButton.tag = 2
-            annotationView?.rightCalloutAccessoryView = rightButton
-            annotationView?.leftCalloutAccessoryView = leftButton
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? WeatherAnnotationView {
+        dequeuedView.annotation = annotation
+        view = dequeuedView
+        view.delegate = self
+            return view
 
-            annotationView?.canShowCallout = true
-            WeatherDownloader.getImage(annotation.imageID!, { data in
-                
-                DispatchQueue.main.async {
-                    guard let data = data else {return}
-                    annotationView?.image = UIImage(data: data)
-                }
-            })
+        
+        } else {
+        view = WeatherAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            view.delegate = self
+
+            return view
+
         }
-        if annotation.placeStatus { annotationView?.rightCalloutAccessoryView?.isHidden = true} else {annotationView?.rightCalloutAccessoryView?.isHidden = false}
-        return annotationView
+   
+     
+
+        
+
     }
+    
+    
+    
     
     // MARK: HandelTap
     
@@ -127,13 +137,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
     
     // MARK: Route
     
-    func setupDistView(forRoute route: MKRoute) {
-        let dist = distDescription.viewWithTag(1) as! UILabel
-        let time = distDescription.viewWithTag(2) as! UILabel
-        dist.text = "Расстояние: \(route.distDescription()) киллометров"
-        time.text = "Время в пути: \(route.timeDescription())"
-        distDescription.isHidden = false
-    }
+
     
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -145,10 +149,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         }
     
     
-    func showRoute(toAnnotation annotation : WeatherAnnorationPoint) {
-        
-        guard let sourse = self.curretnLocationTown else {return}
-        self.distDescription.isHidden = true
+    @objc func showRoute(toAnnotation annotation : WeatherAnnorationPoint) {
+        self.distDescription.startSetup()
+        guard let sourse = self.curretnLocationTown else {distDescription.finishwithError();return}
         self.mapView.removeOverlays(self.mapView.overlays)
         
         let sourceLocation = CLLocationCoordinate2D(latitude: sourse.lat, longitude: sourse.lon)
@@ -168,11 +171,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIGestureRecognize
         
         let directions = MKDirections(request: directionRequest)
         directions.calculate() { [weak self] response, error in
-            if error != nil {self?.routEror()}
+            if error != nil {self?.distDescription.finishwithError()}
             guard let response = response else {return}
             for route in response.routes {
                 self?.mapView.addOverlay(route.polyline, level: .aboveRoads)
-                self?.setupDistView(forRoute: route)
+                self?.distDescription.finishSetupWithRoute(route)
         
             }
             
@@ -274,5 +277,8 @@ extension MapViewController {
         self.present(alert, animated: true, completion: {alert.dismiss(animated: true, completion: nil)})
     }
     
+    
+    
+    
+  
 }
-

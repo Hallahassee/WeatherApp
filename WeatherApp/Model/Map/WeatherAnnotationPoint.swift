@@ -8,7 +8,7 @@
 import Foundation
 import MapKit
 
-class WeatherAnnorationPoint: MKPointAnnotation, WeatherDescriptorsProtocol {
+public class WeatherAnnorationPoint: MKPointAnnotation, WeatherDescriptorsProtocol {
     
     var imageID: String?
     var placeStatus : Bool = false

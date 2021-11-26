@@ -54,6 +54,7 @@ class WeatherBackGroindImage: WeatherImageDescription {
         default : id = "Rain"
         }
         self.image = UIImage(named: id)
+    
         self.setNeedsDisplay()
         activityIndicator.stopAnimating()
         }
